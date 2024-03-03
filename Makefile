@@ -17,8 +17,8 @@ endif
 SDK_PACK := $(shell go list -m github.com/cosmos/cosmos-sdk | sed  's/ /\@/g')
 TM_VERSION := $(shell go list -m github.com/tendermint/tendermint | sed 's:.* ::')
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=cist \
-	-X github.com/cosmos/cosmos-sdk/version.AppName=cistd \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=add-evm \
+	-X github.com/cosmos/cosmos-sdk/version.AppName=add-evmd \
 	-X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 	-X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 	-X github.com/tendermint/tendermint/version.TMCoreSemVer=$(TM_VERSION)
@@ -28,12 +28,12 @@ BUILD_FLAGS := -ldflags '$(ldflags)'
 all: build install
 
 install: go.sum
-	@echo "--> Installing cistd"
-	@go install -mod=readonly $(BUILD_FLAGS) ./cmd/cistd
+	@echo "--> Installing add-evmd"
+	@go install -mod=readonly $(BUILD_FLAGS) ./cmd/add-evmd
 
 build: go.sum
-	@echo "--> Build cistd"
-	@go build -mod=readonly $(BUILD_FLAGS) -o ./build/cistd ./cmd/cistd
+	@echo "--> Build add-evmd"
+	@go build -mod=readonly $(BUILD_FLAGS) -o ./build/add-evmd ./cmd/add-evmd
 
 go.sum: go.mod
 	@echo "--> Ensure dependencies have not been modified"
