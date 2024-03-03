@@ -1,0 +1,7 @@
+syntax = "proto3";
+package addevm.addevm;
+
+option go_package = "add-evm/x/addevm/types";
+
+// Msg defines the Msg service.
+service Msg {}
