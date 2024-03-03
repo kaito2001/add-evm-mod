@@ -4,6 +4,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"add-evm/app"
+
+	ethermint "github.com/tharsis/ethermint/types"
 )
 
 func initSDKConfig() {
@@ -20,4 +22,22 @@ func initSDKConfig() {
 	config.SetBech32PrefixForValidator(validatorAddressPrefix, validatorPubKeyPrefix)
 	config.SetBech32PrefixForConsensusNode(consNodeAddressPrefix, consNodePubKeyPrefix)
 	config.Seal()
+}
+
+// SetBip44CoinType sets the global coin type to be used in hierarchical deterministic wallets.
+func SetBip44CoinType(config *sdk.Config) {
+	config.SetCoinType(ethermint.Bip44CoinType)
+	config.SetPurpose(sdk.Purpose)                      // Shared
+	config.SetFullFundraiserPath(ethermint.BIP44HDPath) // nolint: staticcheck
+}
+
+// RegisterDenoms registers the base and display denominations to the SDK.
+func RegisterDenoms() {
+	if err := sdk.RegisterDenom(DisplayDenom, sdk.OneDec()); err != nil {
+		panic(err)
+	}
+
+	if err := sdk.RegisterDenom(BaseDenom, sdk.NewDecWithPrec(1, ethermint.BaseDenomUnit)); err != nil {
+		panic(err)
+	}
 }
